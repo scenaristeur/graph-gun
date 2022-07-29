@@ -9,19 +9,13 @@
 import ForceGraph3D from "3d-force-graph";
 import {CSS2DRenderer, CSS2DObject} from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import SpriteText from 'three-spritetext';
-// import * as TWEEN from '@tweenjs/tween.js';
 
 export default {
   name: "GraphView",
   data(){
     return {
       Graph: undefined,
-      size: null,
-      scene : null,
-      objects: [],
-      targets: { table: [], sphere: [], helix: [], grid: [] },
-      table: [],
-      periode: 5,
+      size: null
     }
   },
   mounted(){
@@ -46,15 +40,11 @@ export default {
     .onNodeClick(this.onNodeClick)
     .nodeAutoColorBy('group')
     .nodeThreeObject(node => {
-      if(node.group == "timeNode"){
-        return this.timeNodeObject(node)
-      }else{
       const nodeEl = document.createElement('div');
       nodeEl.textContent = node.name;
       nodeEl.style.color = node.color;
       nodeEl.className = 'node-label';
       return new CSS2DObject(nodeEl);
-    }
     })
     .nodeThreeObjectExtend(true)
     .nodeRelSize(5)
@@ -94,112 +84,8 @@ export default {
       app.Graph.height(app.size.h)
       //}
     } );
-    this.scene = this.Graph.scene()
-    this.helix()
   },
   methods: {
-    timeNodeObject(node){
-      const nodeEl = document.createElement('div');
-      nodeEl.textContent = node.name;
-      nodeEl.style.color = "red";
-      nodeEl.className = 'node-label';
-      return new CSS2DObject(nodeEl);
-    },
-    helix(){
-      let now = Date.now()
-let graphData = this.Graph.graphData();
-      for (let i = -1*this.periode ; i < this.periode; i++ ){
-        let d = new Date(now)
-        d.setDate(d.getDate()+i);
-        let id = now+i
-        graphData.nodes.push({i: i,id: id, name: "j"+i, detail1:d.toLocaleString(), detail2:id, x:d.getDate(),y:d.getMonth(), group: 'timeNode'})
-      }
-
-      // console.log(this.table)
-      //
-      //   let graphData = this.Graph.graphData();
-      // for ( let i = 0; i < this.table.length; i ++ ) {
-      //   let n =
-      //   let timeNode = {
-      //   "id":  "t_"+options.id ,
-      //   "name": options.name, // && options.name['@value'] || options.name || "",
-      //   type: "timeNode",
-      //   shape: "timeNode",
-      //   detail1: options.detail1,
-      //   detail2: options.detail2,
-      //   x: options.x,
-      //   y: options.y,
-      //   i: options.i,
-      // }
-      //   graphData.nodes.push(timeNode)
-      //
-      //   //   //testlink
-      //   //   if(i > 0){
-      //   //     //await Vue.prototype.$addLink({subject: table[i-1].id, predicate:"next", object:table[i].id})
-      //   // store.state.core.links.push({source: table[i-1].id, target: table[i].id, label: "next"})
-      //   //   }
-      //
-      // }
-    //  this.Graph.graphData(graphData)
-    //  console.log("created timenodes", targets, objects)
-
-
-      // await store.dispatch('core/getNodes')
-    //  console.log("timeHelix built")
-
-
-      //this.transform( targets.helix, 2000 );
-
-    },
-//     transform( targets, duration) {
-//       console.error("pb, ça multiplie à chaque fois",targets.length, objects.length)
-//       // let graph = store.state.core.graph
-//       // console.log(graph)
-//       // let renderer = graph.renderer()
-//       TWEEN.removeAll();
-//
-//
-//
-//       for ( let i = 0; i < objects.length; i ++ ) {
-//
-//         const object = objects[ i ];
-//         const target = targets[ i ];
-//
-//         let node =store.state.core.graph.graphData()['nodes'].filter(x=> x.name== name)[0]
-//         console.log(name, node)
-//
-//         //console.log('p',object.position, target.position)
-//         new TWEEN.Tween( object.position )
-//         .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
-//         .easing( TWEEN.Easing.Exponential.InOut )
-//         // .onUpdate( render(object, target) )
-//         .start();
-//
-//         //console.log('r',object.rotation, target.rotation)
-//         new TWEEN.Tween( object.rotation )
-//         .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
-//         .easing( TWEEN.Easing.Exponential.InOut )
-//
-//         .start();
-//
-//       //   let name = target.name.split('_')[1]
-//       //       var index = store.state.core.nodes.findIndex(x => x.name==name);
-//       //       console.log(index, store.state.core.nodes[index])
-//       //       Object.assign(store.state.core.nodes[index], target)
-//       //
-//       }
-//
-//       new TWEEN.Tween( this )
-//       .to( {}, duration * 2 )
-//       // .onUpdate( render(target) )
-//       .start();
-//
-//
-//             // index === -1 ? store.state.nodes.push(n) : Object.assign(context.state.nodes[index], n)
-//
-//
-// // store.state.core.graph.refresh()
-// },
     onNodeClick(node) {
       console.log(node);
     },

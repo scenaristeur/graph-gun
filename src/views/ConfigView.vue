@@ -22,7 +22,7 @@ export default {
   name: "ConfigView",
   data(){
     return{
-      roomValue : "chat1"
+      roomValue : "chat2"
     }
   },
   mounted(){
