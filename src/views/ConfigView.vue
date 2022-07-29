@@ -2,6 +2,8 @@
   <div>
     Config
     peers
+    <input v-model="roomValue" placeholder="room" />
+    <button @click="setRoom">set room</button>
   </div>
 </template>
 
@@ -12,11 +14,11 @@ import 'gun/axe';
 
 export default {
   name: "ConfigView",
-  // data(){
-  //   return{
-  //     db : undefined
-  //   }
-  // },
+  data(){
+    return{
+      roomValue : "chat"
+    }
+  },
   mounted(){
     let db = GUN([
       'https://spogg.herokuapp.com/gun',
@@ -24,7 +26,6 @@ export default {
       'https://gun-manhattan.herokuapp.com/gun'/*,
       'http://gunjs.herokuapp.com/gun/'*/
     ])
-
     let user = db.user().recall({sessionStorage: true});
     this.$store.commit('setDb',  db)
     this.$store.commit('setUser',  user)
@@ -40,6 +41,23 @@ export default {
     });
 
     // console.log("user", user)
+    if (this.room == ""){ this.setRoom()}
+  },
+  methods: {
+    setRoom(){
+      this.$store.commit('setRoom', this.roomValue)
+    }
+  },
+  watch:{
+    room(){
+      this.roomValue = this.room
+      console.log("rv",this.roomValue)
+    }
+  },
+  computed: {
+    room(){
+      return this.$store.state.room
+    },
   }
 }
 </script>

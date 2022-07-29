@@ -4,10 +4,11 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <HeaderView />
     <LoginView />
+    <ConfigView />
     <ChatView />
     <GraphView />
 
-    <ConfigView />
+
   </div>
 </template>
 
@@ -29,9 +30,9 @@ export default {
 </script>
 <style>
 img {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	margin: 2px 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 2px 5px;
 }
 </style>
