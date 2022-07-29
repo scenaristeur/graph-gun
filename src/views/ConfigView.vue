@@ -41,12 +41,62 @@ export default {
     });
 
     // console.log("user", user)
-    if (this.room == ""){ this.setRoom()}
+
+    this.getMessages()
+
   },
   methods: {
     setRoom(){
       this.$store.commit('setRoom', this.roomValue)
+      this.getMessages()
+    },
+    getMessages(){
+      let messages = []
+//       let scrollBottom;
+// let lastScrollTop;
+//let canAutoScroll = true;
+// let unreadMessages = false;
+        if (this.room == ""){ this.setRoom()}
+      var match = {
+  // lexical queries are kind of like a limited RegEx or Glob.
+  ".": {
+    // property selector
+    ">": new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
+  },
+  "-": 1, // filter in reverse
+};
+      // Get Messages
+      this.$store.state.db.get(this.$store.state.room)
+      .map(match)
+      .once(async (data, id) => {
+        if (data) {
+          // Key for end-to-end encryption
+          const key = "#foo";
+
+          var message = {
+            // transform the data
+            who: await this.$store.state.db.user(data).get("alias"), // a user might lie who they are! So let the user system detect whose data it is.
+            what: (await window.SEA.decrypt(data.what, key)) + "", // force decrypt as text.
+            when: GUN.state.is(data, "what"), // get the internal timestamp for the what property.
+            id: id,
+          };
+
+          if (message.what) {
+            messages = [...messages.slice(-100), message].sort(
+              (a, b) => a.when - b.when
+            );
+            this.$store.commit('setMessages', messages)
+            // if (canAutoScroll) {
+            //   autoScroll();
+            // } else {
+            //   unreadMessages = true;
+            // }
+          }
+        }
+      });
     }
+
+
   },
   watch:{
     room(){

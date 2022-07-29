@@ -5,10 +5,7 @@
     <HeaderView />
     <LoginView />
     <ConfigView />
-    <ChatView />
-    <GraphView />
-
-
+    <MainView />
   </div>
 </template>
 
@@ -19,12 +16,9 @@ export default {
   name: 'HomeView',
   components: {
     'HeaderView': ()=>import('@/views/HeaderView'),
-    'ChatView': ()=>import('@/views/ChatView'),
-    'GraphView': ()=>import('@/views/GraphView'),
+    'MainView': ()=>import('@/views/MainView'),
     'LoginView': ()=>import('@/views/LoginView'),
     'ConfigView': ()=>import('@/views/ConfigView'),
-    // 'DataCaching': ()=>import('@/views/experiments/DataCaching'),
-    // 'LevelgraphJsonld': ()=>import('@/views/experiments/LevelgraphJsonld'),
   },
 }
 </script>

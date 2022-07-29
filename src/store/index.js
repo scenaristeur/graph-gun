@@ -30,6 +30,10 @@ export default new Vuex.Store({
       state.room = r
       // console.log(u)
     },
+    setMessages(state, m){
+      state.messages = m
+      // console.log(u)
+    },
   },
   actions: {
 
