@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <input v-model="username" placeholder="username" />
-    <input v-model="password" placeholder="password" type="password"/>
+  <div v-if="username == undefined || username.length == 0 ">
+    <input v-model="usernameInput" placeholder="username" />
+    <input v-model="passwordInput" placeholder="password" type="password"/>
     <button @click="login">login</button>
     <button @click="signup">sign up</button>
   </div>
@@ -12,18 +12,18 @@ export default {
   name: "LoginView",
   data(){
     return {
-      username: undefined,
-      password: undefined
+      usernameInput: undefined,
+      passwordInput: undefined
     }
   },
   methods:{
     login(){
       console.log("login")
-      this.user.auth(this.username, this.password, ({ err }) => err && alert(err));
+      this.user.auth(this.usernameInput, this.passwordInput, ({ err }) => err && alert(err));
     },
     signup(){
       console.log("signup")
-      this.user.create(this.username, this.password, ({ err }) => {
+      this.user.create(this.usernameInput, this.passwordInput, ({ err }) => {
         if (err) {
           alert(err);
         } else {
@@ -35,6 +35,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.user
+    },
+    username() {
+      return this.$store.state.username
     },
   }
 }

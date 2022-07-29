@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>🔫💬</h1>
+    <!-- <h1>🔫💬</h1> -->
     <div v-if="username" class="user-bio">
 
 
