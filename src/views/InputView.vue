@@ -23,7 +23,7 @@ export default {
     const secret = await window.SEA.encrypt(this.newMessage, "#foo");
     const message = this.$store.state.user.get("all").set({ what: secret });
     const index = new Date().toISOString();
-    console.log(index, message)
+    // console.log(index, message)
     this.$store.state.db.get(this.$store.state.room).get(index).put(message);
     this.newMessage = "";
     // canAutoScroll = true;

@@ -1,7 +1,5 @@
 <template>
   <div>
-    Config
-    peers
     <input v-model="roomValue" placeholder="room" />
     <button @click="setRoom">set room</button>
   </div>
@@ -29,7 +27,7 @@ export default {
   },
   mounted(){
     let db = GUN(
-      {localStorage: false, //
+      {localStorage: false,
       peers : [
         'https://spogg.herokuapp.com/gun',
         'http://localhost:8765/gun',
@@ -45,16 +43,14 @@ export default {
       })
       db.on('auth', async() => {
         const alias = await user.get('alias'); // username string
-        // username.set(alias);
-
         console.log(`signed in as ${alias}`);
-        this.$store.commit('setUsername', alias)
+        if(alias.length > 0){
+          this.$store.commit('setUsername', alias)
+          this.getMessages()
+        }else{
+          alert('signed in as '+alias)
+        }
       });
-
-      // console.log("user", user)
-
-      this.getMessages()
-
     },
     methods: {
       setRoom(){
@@ -63,10 +59,6 @@ export default {
       },
       getMessages(){
         let messages = []
-        //       let scrollBottom;
-        // let lastScrollTop;
-        //let canAutoScroll = true;
-        // let unreadMessages = false;
         if (this.room == ""){ this.setRoom()}
         var match = {
           // lexical queries are kind of like a limited RegEx or Glob.
@@ -97,17 +89,10 @@ export default {
                 (a, b) => a.when - b.when
               );
               this.$store.commit('setMessages', messages)
-              // if (canAutoScroll) {
-              //   autoScroll();
-              // } else {
-              //   unreadMessages = true;
-              // }
             }
           }
         });
       }
-
-
     },
     watch:{
       room(){
@@ -122,7 +107,3 @@ export default {
     }
   }
   </script>
-
-  <style>
-
-  </style>
