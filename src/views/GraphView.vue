@@ -106,7 +106,7 @@ import {
       //   //}
       // } );
       //this.scene = this.Graph.scene()
-      this.generateCalendar()
+    //  this.generateCalendar()
       // this.init()
       // this.animate()
     },
@@ -369,11 +369,11 @@ import {
         this.Graph.graphData({nodes: this.Graph.graphData().nodes.filter(n => n.group == 'timeNode'), links: []})
       },
       messages(){
-        let app = this
+      //  let app = this
         let { nodes, links } = this.Graph.graphData();
         let last = null
         this.messages.forEach((m) => {
-         let timeNode_id = m.when != undefined ? app.findTimeNode(m.when) : undefined
+        // let timeNode_id = m.when != undefined ? app.findTimeNode(m.when) : undefined
           let n = { id: m.id, name: m.what, group: "message", created: m.when };
           let who = {id: m.who, name: m.who, group: "who"}
           let index = nodes.findIndex((x) => x.id == m.id);
@@ -383,7 +383,7 @@ import {
           indexWho === -1 ? nodes.push(who) : Object.assign(nodes[indexWho], who);
           links.push({ source: m.id, target: who.id, label: "by" });
 
-         timeNode_id != undefined ? links.push({source: n.id, target: timeNode_id, label: "created", color: "red"}) : ""
+         // timeNode_id != undefined ? links.push({source: n.id, target: timeNode_id, label: "created", color: "red"}) : ""
           if (last != null) {
             links.push({ source: last, target: m.id, label: "next" });
           }
