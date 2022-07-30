@@ -1,44 +1,36 @@
 <template>
-  <div v-if="username == undefined || username.length == 0 ">
-    <input v-model="usernameInput" placeholder="username" />
-    <input v-model="passwordInput" placeholder="password" type="password"/>
-    <button @click="login">login</button>
-    <button @click="signup">sign up</button>
+  <div>
+
+
+    <input type="radio" id="matrix" value="matrix" v-model="network">
+    <label for="matrix">Matrix</label>
+    <br>
+    <input type="radio" id="gundb" value="gundb" v-model="network">
+    <label for="gundb">GunDb</label>
+    <br>
+    <span>Choisi : {{ network }}</span>
+
+    <GunLogin v-if="network == 'gundb'"/>
+    <MatrixLogin v-if="network== 'matrix'"/>
   </div>
 </template>
 
 <script>
 export default {
   name: "LoginView",
+  components: {
+    'GunLogin': ()=>import('@/views/GunLogin'),
+    'MatrixLogin': ()=>import('@/views/MatrixLogin'),
+  },
   data(){
-    return {
-      usernameInput: undefined,
-      passwordInput: undefined
+    return{
+      network: "matrix"
     }
   },
-  methods:{
-    login(){
-      console.log("login")
-      this.user.auth(this.usernameInput, this.passwordInput, ({ err }) => err && alert(err));
-    },
-    signup(){
-      console.log("signup")
-      this.user.create(this.usernameInput, this.passwordInput, ({ err }) => {
-        if (err) {
-          alert(err);
-        } else {
-          this.login();
-        }
-      });
+  watch:{
+    network(){
+      this.$store.commit('setNetwork', this.network)
     }
-  },
-  computed: {
-    user() {
-      return this.$store.state.user
-    },
-    username() {
-      return this.$store.state.username
-    },
   }
 }
 </script>

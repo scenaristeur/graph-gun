@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    network: null,
     messages : [],
     db : undefined,
     user : undefined,
@@ -14,6 +15,10 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    setNetwork(state, n){
+      state.network = n
+      // console.log("db",db)
+    },
     setDb(state, db){
       state.db = db
       // console.log("db",db)

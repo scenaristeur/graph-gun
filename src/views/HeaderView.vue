@@ -8,7 +8,7 @@
       <img :src="'https://avatars.dicebear.com/api/initials/'+username+'.svg'" alt="avatar" />
       <button class="signout-button" @click="signout">Sign Out</button>
     </div>
-    <h3 v-else>GraphGunChat</h3>
+    <h3 v-else>GraphChat</h3>
 
   </header>
 </template>

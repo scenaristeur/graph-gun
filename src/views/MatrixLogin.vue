@@ -1,5 +1,6 @@
 <template>
   <div>
+    ------------------------
     <br><h2> Matrix Client</h2>
     provider :<br>
     <input v-model="provider" placeholder="provider, ex: https://matrix.org" />
