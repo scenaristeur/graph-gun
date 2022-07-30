@@ -2,6 +2,7 @@
   <div class="home">
     <HeaderView />
     <LoginView />
+    <MatrixLogin />
     <ConfigView />
     <MainView />
   </div>
@@ -16,6 +17,7 @@ export default {
     'HeaderView': ()=>import('@/views/HeaderView'),
     'MainView': ()=>import('@/views/MainView'),
     'LoginView': ()=>import('@/views/LoginView'),
+    'MatrixLogin': ()=>import('@/views/MatrixLogin'),
     'ConfigView': ()=>import('@/views/ConfigView'),
   },
 }
