@@ -1,5 +1,6 @@
 <template>
   <div>
+    Config Gun 
     <input v-model="roomValue" placeholder="room" />
     <button @click="setRoom">set room</button>
   </div>
