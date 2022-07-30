@@ -10,7 +10,8 @@ export default new Vuex.Store({
     db : undefined,
     user : undefined,
     username: undefined,
-    room : ""
+    room : "",
+    matrixClient: null
   },
   getters: {
   },

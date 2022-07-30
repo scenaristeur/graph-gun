@@ -2,12 +2,12 @@
   <div>
     ------------------------
     <br><h2> Matrix Client</h2>
-    provider :<br>
-    <input v-model="provider" placeholder="provider, ex: https://matrix.org" />
-    Login with token :<br>
+    provider :
+    <input v-model="provider" placeholder="provider, ex: https://matrix.org" /><br>
+    Login with token :
     <input v-model="token" placeholder="token" type="password" />
     <br>
-    Or Login with user / password :<br>
+    Or Login with userId / password :
     <input v-model="userId" placeholder="userId" />
     <input v-model="password" placeholder="password" type="password" /><br>
     <button @click="login">Login</button>
@@ -20,7 +20,7 @@
     <div v-if="state=='PREPARED'">
       <input v-model="message2send" placeholder="message to Send" />
       <button @click="sendMessage" >Send to #test:matrix.org room </button>
-
+      roomList : {{roomList}}
     </div>
 
 
@@ -31,7 +31,9 @@
 </template>
 
 <script>
+//https://github.com/matrix-org/matrix-js-sdk/blob/master/examples/node/app.js
 //https://matrix.org/docs/guides/usage-of-the-matrix-js-sdk
+// voip https://github.com/matrix-org/matrix-js-sdk/blob/master/examples/voip/browserTest.js
 import sdk from 'matrix-js-sdk';
 
 export default {
@@ -47,7 +49,8 @@ export default {
       // prevState: null,
       // res: null,
       log: null,
-      message2send: ""
+      message2send: "",
+      roomList: {}
     }
   },
   methods: {
@@ -95,30 +98,34 @@ export default {
       });
     },
     onClientReady(){
-    //  let app = this
+       let app = this
       this.log = "client listening on events & room.timeline"
-      this.client.on("event", function(event){
-        console.log(event.getType());
-        console.log(event);
-      //  app.log = JSON.Stringify(event)
-      })
-
-      this.client.on("Room.timeline", function(event, room, toStartOfTimeline) {
-        console.log(event.event, room, toStartOfTimeline);
-        // let ev = {event: event, roorm: room, toStart: toStartOfTimeline}
-      //  app.log = JSON.stringify(ev)
-      });
+      // this.client.on("event", function(event){
+      //   console.log(event.getType());
+      //   console.log(event);
+      //   //this.$store.commit('newMatrixEvent', event)
+      //   //  app.log = JSON.Stringify(event)
+      // })
+      //
+      // this.client.on("Room.timeline", function(event, room, toStartOfTimeline) {
+      //   console.log(event.event, room, toStartOfTimeline);
+      //   // let ev = {event: event, roorm: room, toStart: toStartOfTimeline}
+      //   //  app.log = JSON.stringify(ev)
+      // });
 
       var rooms = this.client.getRooms();
+      console.log(rooms.length,rooms)
+      // this.rooms = rooms.map(r => ({id: r.roomId, name: r.name, members: r.getJoinedMembers()}))
       rooms.forEach(room => {
-        console.log(room.roomId);
+        console.log(room.roomId, room);
+        app.roomList[room.roomId] = {id: room.roomId, name: room.name/*, members: room.getJoinedMembers()*/}
         // var members = room.getJoinedMembers();
         // members.forEach(member => {
         //   console.log(member.name);
         // });
-        room.timeline.forEach(t => {
-          console.log(JSON.stringify(t.event.content, t));
-        });
+        // room.timeline.forEach(t => {
+        //   console.log(JSON.stringify(t.event.content, t));
+        // });
       });
 
     },
