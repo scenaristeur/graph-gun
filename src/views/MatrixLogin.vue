@@ -34,6 +34,7 @@
 //https://github.com/matrix-org/matrix-js-sdk/blob/master/examples/node/app.js
 //https://matrix.org/docs/guides/usage-of-the-matrix-js-sdk
 // voip https://github.com/matrix-org/matrix-js-sdk/blob/master/examples/voip/browserTest.js
+// https://syncedstore.org/docs/sync-providers
 import sdk from 'matrix-js-sdk';
 
 export default {
@@ -98,20 +99,22 @@ export default {
       });
     },
     onClientReady(){
-       let app = this
+      let app = this
       this.log = "client listening on events & room.timeline"
-      // this.client.on("event", function(event){
-      //   console.log(event.getType());
-      //   console.log(event);
-      //   //this.$store.commit('newMatrixEvent', event)
-      //   //  app.log = JSON.Stringify(event)
-      // })
-      //
-      // this.client.on("Room.timeline", function(event, room, toStartOfTimeline) {
-      //   console.log(event.event, room, toStartOfTimeline);
-      //   // let ev = {event: event, roorm: room, toStart: toStartOfTimeline}
-      //   //  app.log = JSON.stringify(ev)
-      // });
+      this.client.on("event", function(event){
+        console.log(event.getType());
+        console.log(event);
+        //this.$store.commit('newMatrixEvent', event)
+        //  app.log = JSON.Stringify(event)
+      })
+
+      this.client.on("Room.timeline", function(event, room, toStartOfTimeline) {
+        console.log(event.event, room, toStartOfTimeline);
+        // let ev = {event: event, roorm: room, toStart: toStartOfTimeline}
+        //  app.log = JSON.stringify(ev)
+      });
+
+      // this.initialRoomSync()
 
       var rooms = this.client.getRooms();
       console.log(rooms.length,rooms)
@@ -119,23 +122,52 @@ export default {
       rooms.forEach(room => {
         console.log(room.roomId, room);
         app.roomList[room.roomId] = {id: room.roomId, name: room.name/*, members: room.getJoinedMembers()*/}
-        // var members = room.getJoinedMembers();
-        // members.forEach(member => {
-        //   console.log(member.name);
-        // });
-        // room.timeline.forEach(t => {
-        //   console.log(JSON.stringify(t.event.content, t));
-        // });
+        var members = room.getJoinedMembers();
+        members.forEach(member => {
+          console.log(member.name);
+        });
+        room.timeline.forEach(t => {
+          console.log(JSON.stringify(t.event.content, t));
+        });
       });
 
     },
+    initialRoomSync(){
+      // var testRoomId = "!AUyclzjhyJPgZJeNkW:matrix.org";
+      var testRoomId = "!hCZXcwEEfmJWNeIGbo:matrix.org";
+
+      this.client.initialRoomSync(testRoomId).then((res)=>{
+        console.log("initialRoomSync", res)
+
+      }).catch((err) => {
+        console.log(err)
+      })
+
+
+    },
     sendMessage(){
-      var testRoomId = "!AUyclzjhyJPgZJeNkW:matrix.org";
+      // https://tekos.gitbook.io/doc/building-apps-1/chat-surfaces/messages/instant-messaging/message-types#m.file
+
+      // var testRoomId = "!AUyclzjhyJPgZJeNkW:matrix.org";
+      var testRoomId = "!hCZXcwEEfmJWNeIGbo:matrix.org";
       // let body = this.message2send
-      var content = {
-        "body": this.message2send,
+      // var content = {
+      //   "body": this.message2send,
+      //   "msgtype": "m.text"
+      // };
+      let node = {
+        id: 1234,
+        label: this.message2send
+      }
+
+
+      var content =   {
+        "body": JSON.stringify(node),
+        // "format": "org.matrix.custom.html",
+        // "formatted_body": "<b>This is an example text message</b>",
         "msgtype": "m.text"
-      };
+      }
+
       console.log(content)
       this.client.sendEvent(testRoomId, "m.room.message", content, "").then((res)=>{
         console.log("message send sucessfully", res)

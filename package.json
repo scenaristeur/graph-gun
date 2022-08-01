@@ -10,6 +10,7 @@
     "postgit": "git push && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
+    "@syncedstore/core": "^0.3.9",
     "@tweenjs/tween.js": "^18.6.4",
     "3d-force-graph": "^1.70.10",
     "core-js": "^3.8.3",
@@ -20,7 +21,8 @@
     "register-service-worker": "^1.7.2",
     "three-spritetext": "^1.6.5",
     "vue": "^2.6.14",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "yjs": "^13.5.41"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
